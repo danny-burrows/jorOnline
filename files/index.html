@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>jorOnline &mu;</title>
+
+	<!--
+    <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Source+Code+Pro" rel="stylesheet">
+	-->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" type="image/png" href="img/dragoon.png">
+    <script src="js/main.js"></script>
+</head>
+
+<body onload="init();">
+
+    <!-- Use any element to open the sidenav -->
+    <button id="aubutton" class="aubutton" onclick="openNav()">Active Users</button>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <h4>Active Users: </h4>
+        <div id="user_log"></div>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <header class="text-center site-header">
+                    <img src="img/dragoon-shadow.png" width="80" height="80" class="header_image">
+                    <img src="img/jorOnline.png" width="200.79" height="91.143" class="header_image">
+                </header>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="mb-5">
+                    <h3 id="MOTD" class="mb-4 tm-text">New things are new.</h3>
+                    <div class="">
+                        <form action="#contact" method="post" class="message-input-form" onsubmit="onSubmit(); onSubmitIMG(); return false; " autocomplete="off">
+                            <div class="">
+                                <input type="text" id="input" class="form-control msg-input" placeholder="Press enter to send..." required/>
+                                <input type="file" id="files" name="file" style="display: inline-block;" class="form-control img-input">
+                                <button type="submit" style="display: inline-block;" class="img-btn form-control">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="jor-log-control">
+                        <div id="log" class="jor-log"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <br>
+                <h2>Welcome to jorOnline</h2>
+                <p>Grab a seat… make jorself at home… nice to meet you. jorOnline is a website that lets you talk to people from anywhere at any time... how original... But, jorOnline does it better. Or at least it will. Probably... &#9786;</p>
+                <br>
+
+                <h2>Bryn's Website</h2>
+                <p>Check out <a href="http://localhost:6969">Bryn's awesome website!</a></p>
+                <br>
+
+                <h2>File and Image Sharing</h2>
+                <p>Newly added to jorOnline is file and image sharing, you can select a file with the browse button and send. Below is a list of supported file formats. All file formats have to be tested to comply with our method of transfer and we can only currently support up to 15MB files. We are sorry if we don't currently support what you need.</p>
+                <p>
+                    <div style="display: inline-block; margin-right: 40px;">
+                    <h3>Images:</h3>
+                    <ul>
+                        <li>png</li>
+                        <li>jpg</li>
+                        <li>jpeg</li>
+                        <li>bmp</li>
+                        <li>gif</li>
+                    </ul>
+                    </div>
+                    <div style="display: inline-block; margin-right: 40px;">
+                    <h3>Text Format:</h3>
+                    <ul>
+                        <li>txt</li>
+                        <li>py/pyw</li>
+                        <li>c</li>
+                        <li>css</li>
+                        <li>js</li>
+                    </ul>
+                    </div>
+                    <div style="display: inline-block;">
+                    <h3>Downloads:</h3>
+                    <ul>
+                        <li>zip</li>
+                        <li>iso</li>
+                        <li>exe</li>
+                        <li>msi</li>
+                        <li>pyc</li>
+                    </ul>
+                    </div>
+                </p>
+
+                <br>
+
+                <h2>Commands!</h2>
+                <p>
+                    All commands begining with a '/' must be used at the begining of a message.
+                    <ul>
+						<li><i><font color="green">@</font>user</i> <font color="yellow"># Calls user with notification.</font></li>
+                        <li><i><font color="green">*</font>message<font color="green">*</font></i> <font color="yellow"># Makes things italic!</font></li>
+                        <li><i><font color="green">http://</font>link.ext</i> <font color="yellow"># Hyperlink to website.</font></li>
+                        <li><i><font color="green">https://</font>link.ext</i> <font color="yellow"># More secure hyperlink (Make sure website supports it).</font></li>
+                        <li><i><font color="green">/uc</font> colour message</i> <font color="yellow"># Changes colour of your username.</font></li>
+                        <li><i><font color="green">/c</font> colour message</i> <font color="yellow"># Changes colour of your message.</font></li>
+                        <li><i><font color="green">/me</font> action</i> <font color="yellow"># Perform an action as jorself.</font></li>
+                        <li><i><font color="green">/i</font> quote</i> <font color="yellow"># Quote the Ianster.</font></li>
+                        <li><i><font color="green">/uwu</font></i> <font color="yellow"># They made me add this...</font></li>
+
+
+                    </ul>
+                </p>
+                <br>
+
+                <h2>Mentions</h2>
+                <p> - jor, originally programmed by ASC and DBB.<br>
+                 - Logo design by Bryn.<br>
+                 - Hosted by Greytide.<br>
+                 - Website and chat server by DBB.<br>
+                Thank you all non-Dans for helping this become a reality, you are all amazing.</p>
+                <br>
+				Special thanks to Dom, without whom this would have all been possible...
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer class="row mt-5 mb-5">
+        <div class="col-lg-12">
+            <p class="text-center tm-text tm-copyright-text mb-0">&copy;jorOnline 2019</p>
+        </div>
+    </footer>
+
+    <script src="js/jquery.min.js"></script>
+
+</body>
+</html>
