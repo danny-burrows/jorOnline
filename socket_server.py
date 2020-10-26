@@ -1,21 +1,16 @@
-import time
 import re
-import base64
-from collections import deque
-from websocket_server_api import WebsocketServer
-import random
+import time
 import json
+from collections import deque
 
-HOST = '0.0.0.0'
-PORT = 9001
 
-global message_history
 greeting = {"type":"serv_msg", "data":"Start of chat log."}
+global message_history
 message_history = deque([json.dumps(greeting)])
 
 
 # Logs messages before sending.
-def send_message_to_all_log(message):
+def send_message_to_all_log(message, server):
     global message_history
     message_history.append(message)
     server.send_message_to_all(message)
@@ -147,7 +142,7 @@ def message_received(client, server, message):
                     msgData = msgData.replace("/me", "")
                     msgData = msgData.replace("/m", "")
                     data = {"type":"serv_msg", "data":"<button class=\"btn-dark\">" + client['username'] + "</button>" + msgData}
-                    send_message_to_all_log(json.dumps(data))
+                    send_message_to_all_log(json.dumps(data), server)
                     return
 
                 if msgData[1] == "i":
@@ -161,7 +156,7 @@ def message_received(client, server, message):
         if msgData.strip().lower() == client['last_msg'].strip().lower():  # Check if message and sender (client) is the same as the last.
             client['spam_count'] += 1  # Increment Spam counter.
             if client['spam_count'] > 3:  # If sender has sent the same message for the 4th time they are blocked.
-                send_message_to_all_log(json.dumps({"type": "serv_msg", "data": "%s is a puppy murderer." % client['username']}))
+                send_message_to_all_log(json.dumps({"type": "serv_msg", "data": "%s is a puppy murderer." % client['username']}), server)
                 client['is_blocked'] = 1  # Also blocks messages from this client!
                 return
         else:
@@ -173,12 +168,7 @@ def message_received(client, server, message):
         message['user_color'] = client['user_colour']
         message['time'] = time.strftime("%H:%M", time.localtime())
         message['data'] = msgData
-        send_message_to_all_log(json.dumps(message))
+        send_message_to_all_log(json.dumps(message), server)
 
         client['tt'] = time.time()
 
-
-server = WebsocketServer(PORT, HOST)
-server.set_fn_new_client(new_client)
-server.set_fn_message_received(message_received)
-server.run_forever()
