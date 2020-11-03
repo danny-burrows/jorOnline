@@ -25,7 +25,7 @@ def new_client(client, server):
             if i["id"] != client["id"]:
                 data = {"type": "client_joined", "id":i["id"]}
                 server.send_message(client, json.dumps(data))
-            data = {"type": "client_name", "id":i["id"], "color":i['user_colour'], "username":i['username']}
+            data = {"type": "client_name", "id":i["id"], "user_colour":i['user_colour'], "username":i['username']}
             server.send_message(client, json.dumps(data))
         except KeyError:
             pass
@@ -131,8 +131,8 @@ def message_received(client, server, message):
                     user_colour = re.findall("/uc (.*)", msgData)
                     try:
                         client['user_colour'] = user_colour[0]
-                        username = "<font color=\"%s\">%s</font>" % (client['user_colour'], client['username'])
-                        data = {"type":"client_name", "id":client["id"], "username":username}
+                        # username = "<font color=\"%s\">%s</font>" % (client['user_colour'], client['username'])
+                        data = {"type":"client_name", "id":client["id"], "username":client['username'], "user_colour": client['user_colour']}
                         server.send_message_to_all(json.dumps(data))
                         return
                     except IndexError:

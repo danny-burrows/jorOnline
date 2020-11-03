@@ -1,6 +1,5 @@
 <div>
-  <img height=140 src="https://i.imgur.com/DcCHTnv.png" alt="jorOnline Logo">
-  <img height=150 src="https://i.imgur.com/PlqYZLf.png" alt="jorOnline">
+  <img height=140 src="https://i.imgur.com/ZTxVaS5.png" alt="jorOnline Logo">
 </div>
 
 An online chat app made with python websockets and a javascript web client.
@@ -14,4 +13,4 @@ $ python server.py
 ```
 
 ## Preview
-![jorOnline Preview](https://i.imgur.com/i87Xzm8.jpg)
+![jorOnline Preview](https://i.imgur.com/QtegiP3.png)

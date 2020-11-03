@@ -1,12 +1,16 @@
 body {
-    margin-right: 200px;
+    /* margin-right: 200px; */
     width: 100wh;
     height: 90vh;
-    color: #fff;
-    background: linear-gradient(-45deg, #29597d, #428ac1, #333333, #333333);
+    color: #e4e4e4;
+    font-weight: 300;
+    overflow-x: hidden;
+    font-family: 'Source Code Pro', monospace;
+
+    background: linear-gradient(-45deg, #e25822, #4a0808, #333333, #333333);
     background-size: 1000% 1000%;
-    -webkit-animation: Gradient 15s ease infinite;
-    -moz-animation: Gradient 15s ease infinite;
+    -webkit-animation: Gradient 240s ease infinite;
+    -moz-animation: Gradient 240s ease infinite;
     animation: Gradient 240s ease infinite;
 }
 
@@ -46,98 +50,132 @@ body {
     }
 }
 
-body {
-    color: #FFFFFF;
-    text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
-	font-family: 'Source Code Pro', monospace;
-  font-family: Consolas,monaco,monospace;
-    font-weight: 300;
-    overflow-x: hidden;
-}
-
 h1,
 h2 {
 	font-family: 'Julius Sans One', sans-serif;
-  font-family: Consolas,monaco,monospace;
 	font-weight: 300;
-}
-
-h3,
-h4,
-h5,
-h6 {
-    font-weight: 300;
 }
 
 h3 {
     font-size: 1.3rem;
 }
 
-.aubutton {
-    padding: 10px;
-    display: none;
-    float: right;
-
-    font-family: Consolas,monaco,monospace;
-    text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
-    border-radius: 0;
-    border-color: #888;
-    color: #EEE;
-    background: #333;
-    padding: 12px 15px;
+input,
+textarea,
+[contenteditable] {
+    caret-color: #FFF;
 }
 
-.jor-log-control {
+p {
+    line-height: 1.9;
+}
+
+[type="file"] {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    white-space: nowrap;
+    width: 1px;
+}
+
+[type="file"] + label {
+    /* background-color: #000; */
+    /* border-radius: 4rem; */
+    /* color: #fff; */
+    cursor: pointer;
+    display: inline-block;
+    padding-left: 2rem 4rem;
+}
+
+[type="file"]:focus + label,
+[type="file"] + label:hover {
+    background-color: #e25822;
+}
+
+[type="file"]:focus + label {
+    outline: 1px dotted #000;
+}
+
+.jor-yellow {
+    color: yellow;
+}
+
+.jor-red {
+    color: #ff4444;
+}
+
+.logs {
     display: flex;
-}
 
-.jor-log {
-    font-family: Consolas,monaco,monospace;
-    flex: 0 0 100%;
-    width: 100%;
     min-height: 550px;
     max-height: 600px;
-    overflow: auto;
-	word-wrap: break-word;
-    background-color: #333;
 
+    background-color: #303030;    
+}
+
+.chat-log {
+    flex: 0 0 70%;
     border: 1px solid;
     padding: 10px;
-    border-radius: 0;
     border-color: #888;
-}
 
-.jor-userlog {
-    font-family: Consolas,monaco,monospace;
-    flex: 1;
-    min-width: 125px;
-    min-height: 400px;
-    max-height: 600px;
     overflow: auto;
-    word-wrap: break-word;
+	word-wrap: break-word;
 }
 
-#__txt_rec____ {
+.chat-log > div {
+    padding: 7px;
+    margin-bottom: 10px;
+    background-color: #292929;
+    border-radius: 10px;
+}
+
+.user-log {
+    flex: 0 0 30%;
+    border: 1px solid;
+    padding: 10px;
+    border-color: #888;
+
+    overflow: auto;
+	word-wrap: break-word;
+}
+
+.user-list > div {
+    display: inline-block;
+    padding: 5px;
+    margin-right: 10px;
+    text-align: center;
+    padding-left: 12px;
+    padding-right: 12px;
+    
+    margin-bottom: 10px;
+    background-color: #292929;
+    border-radius: 100px;
+}
+
+.content {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#text-block {
     color: #000;
     font-size: 12px;
     text-shadow: none;
     background-color: #777;
     border: 1px solid;
     padding: 20px;
-    box-shadow: 2px 4px 3px #888888;
-}
-
-#messagediv {
-	border: 1px solid;
-	padding: 5px;
-	box-shadow: 5px 10px 8px #888888;
+    box-shadow: 2px 4px 3px #888;
 }
 
 .file-link {
     margin-top: 10px;
     border: 1px solid;
     padding: 10px;
-    box-shadow: 2px 4px 3px #888888;
+    box-shadow: 2px 4px 3px #888;
     display: inline-block;
 }
 
@@ -148,59 +186,43 @@ h3 {
 }
 
 .site-header {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     margin-bottom: 0;
 }
 
 hr {
-    border-color: #666666;
+    border-color: #666;
     max-width: 90%;
 }
 
-.message-input-form {
+.message-form {
     min-width: 100%;
     max-width: 100%;
-    overflow: hidden;
-    display: inline-block;
+    display: flex;
 }
 
 .msg-input {
-    width: 50%;
-    float: left;
-}
-
-.image-input-form {
-    min-width: 40%;
-    max-width: 40%;
-    display: inline-block;
-    float: right;
+    min-width: 100px;
 }
 
 .img-input {
-    width: 35%;
-    float: left;
-    display: inline-block;
+    white-space: nowrap;
 }
 
-.img-btn {
-    width: 15%;
-    min-width: 60px;
-    float: right;
-    display: inline-block;
+.send-btn {
+    min-width: 70px;
+    width: 10%;
 }
 
 .form-control {
-    font-family: Consolas,monaco,monospace;
-    text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
     border-radius: 0;
     border-color: #888;
 	color: #EEE;
-    background: #333;
+    background: #303030;
     padding: 12px 15px;
     max-height: 50px;
     min-height: 50px;
-    display: inline-block;
     margin-bottom: 10px;
 }
 
@@ -208,7 +230,6 @@ hr {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #DDD;
     opacity: 1;
-    /* Firefox */
 }
 
 .form-control:-ms-input-placeholder {
@@ -221,141 +242,39 @@ hr {
     color: #DDD;
 }
 
-iframe {
-    max-width: 100%;
-}
-
-.tm-btn-send {
-    border-radius: 0;
-    font-size: 1.1rem;
-    padding: 12px 10px;
-    background: #333;
-    border: 1px solid #CCCCCC;
-    color: #DDD;
-    display: inline-block;
-}
-
-.tm-btn-send:hover,
-.tm-btn-send:focus {
-    background: #DDD;
-    color: #333333;
-}
-
 .form-control:focus {
-    background-color: #333333;
+    background-color: #303030;
     border-color: #FFF;
 	color: #FFF;
     box-shadow: 0 0 0 0.2rem #cccccc14;
 }
 
-input,
-textarea,
-[contenteditable] {
-    caret-color: #FFFFFF;
+.container {
+    font-size: 16px;
+    max-width: 77%;
 }
 
-p {
-    line-height: 1.9;
-}
-
-@media (min-width: 1200px) {
+@media (max-width: 1500px) {
     .container {
-        /*max-width: 1310px;*/
-        font-size: 16px;
+        font-size: 15px;
         max-width: 90%;
     }
-    .tm-container-2 {
-        max-width: 1170px;
-    }
 }
 
-/* The side navigation menu */
-.sidenav {
- border-left-color: #888;
- border-left-style: solid;
- border-left-width: 1px;
- font-size: 14px;
- height: 100%; /* 100% Full-height */
- width: 200px; /* 0 width - change this with JavaScript */
- position: fixed; /* Stay in place */
- z-index: 1; /* Stay on top */
- top: 0; /* Stay at the top */
- right: 0;
- background-color: #333; /* Black*/
- overflow-x: hidden; /* Disable horizontal scroll */
- /*padding-top: 60px;  Place content 60px from the top
- padding-left: 10px;*/
- padding: 60px 0 0 10px;
- transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-}
-
-.sidenav h4{
-  font-size: 20px;
-}
-
-/* The navigation menu links */
-.sidenav a {
- padding: 8px 8px 8px 32px;
- text-decoration: none;
- font-size: 25px;
- color: #818181;
- display: block;
- transition: 0.3s;
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
- color: #f1f1f1;
-}
-
-/* Position and style the close button (top right corner) */
-.sidenav .closebtn {
- position: absolute;
- top: 0;
- right: 25px;
- font-size: 36px;
- margin-left: 50px;
-}
-
-#navbtn {
-  font-size: 20px;
-}
-
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
- .sidenav {padding-top: 15px;}
- .sidenav a {font-size: 18px;}
-}
-
-@media screen and (max-width: 720px) {
-    body {
-        margin-right: 0;
-    }
-    .sidenav {
-        width: 0; /* 100% Full-height */
-        padding: 0 0 0 0;
-    }
-    .aubutton {
-    display: block;
-    }
+@media only screen and (max-width: 770px) {
     .container {
-    font-size: 15px;
-    font-color: green;
-}
-
-@media only screen and (max-width: 768px) {
-  .form-control {
-    font-size: 15px;
-  }
-  .tm-text{
-    font-size: 15px;
-  }
-  h2 {font-size:20px;}
-  p, li {font-size:15px;}
-}
-
-@media only screen and (max-width: 320px) {
-  p {
-    font-size: 10px;
-  }
+        max-width: 100%;
+    }
+    .form-control {
+        font-size: 15px;
+    }
+    h2 {
+        font-size:20px;
+    }
+    h3 {
+        font-size: 15px;
+    }
+    p, li {
+        font-size:15px;
+    }
 }
