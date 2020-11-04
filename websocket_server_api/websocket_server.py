@@ -143,6 +143,7 @@ class WebsocketServer(ThreadingMixIn, TCPServer, API):
             'is_blocked': 0,
             'spam_count': 0,
             'last_msg': '',
+            'username': 'Anon',
             'user_colour': '#fff',
             'tt': 100
         }
