@@ -1,6 +1,6 @@
-var HOST = "192.168.1.155"
-var HTTP_PORT = "1234"
-var PORT = "9001"
+var HOST = window.location.hostname;
+var HTTP_PORT = window.location.port;
+var PORT = "9001";
 
 function genUid() {
   // Generates a random ID...
