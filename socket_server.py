@@ -57,7 +57,7 @@ def message_received(client, server, message):
 
     elif message["type"] == "file":
         message['username'] = client['username']
-        message['user_color'] = client['user_colour']
+        message['user_colour'] = client['user_colour']
         message['time'] = time.strftime("%H:%M", time.localtime())
 
         if message["MIME"] in ("img", "link", "vid"):
@@ -116,7 +116,7 @@ def message_received(client, server, message):
                     if found == user["username"]:
                         msgData = msgData.replace(
                             f"@{user['username']}", 
-                            f'<button class="btn-dark"><font color="{user["user_colour"]}">{user["username"]}</font></button>'
+                            f'<input type="button" class="user-btn-active" style="--user-colour:{user["user_colour"]};" onclick="calloutUser(\'{user["username"]}\')" value="{user["username"]}" />'
                         )
                         data = {"type": "client_notif", "user": client['username']}
                         server.send_message(user, json.dumps(data))
@@ -149,7 +149,7 @@ def message_received(client, server, message):
                 msgData = msgData.replace("/m", "")
                 data = {
                     "type": "serv_msg", 
-                    "data": f'<button class="btn-dark">{client["username"]}</button>{msgData}'
+                    "data": f'<input type="button" class="user-btn-active" style="--user-colour:{client["user_colour"]};" value="{client["username"]}" />{msgData}'
                 }
                 send_message_to_all_log(json.dumps(data), server)
                 return
@@ -170,7 +170,7 @@ def message_received(client, server, message):
         client['last_msg'] = msgData  # Set the last message for spam check.
 
         message['username'] = client['username']
-        message['user_color'] = client['user_colour']
+        message['user_colour'] = client['user_colour']
         message['time'] = time.strftime("%H:%M", time.localtime())
         message['data'] = msgData
         send_message_to_all_log(json.dumps(message), server)

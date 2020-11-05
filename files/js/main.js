@@ -45,7 +45,7 @@ function onSubmit() {
     var exdays = 30;
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    document.cookie = `user_color=${col}; expires=${d.toUTCString()}`;
+    document.cookie = `user_colour=${col}; expires=${d.toUTCString()}`;
   }
 
   var msg_obj = {"type": "msg", "data": msg};
@@ -162,7 +162,7 @@ function outputFileObj(message, file_obj) {
 }
 
 function outputMessage(message){
-  msg = `<div><font color="${message.user_color}">${message.username}</font><sub> ${message.time}</sub>: ${message.data}</div>`;
+  msg = `<div><strong class="user-colour" style="--user-colour:${message.user_colour};">${message.username}</strong><sub> ${message.time}</sub>: ${message.data}</div>`;
   output(msg);
 }
 
@@ -175,7 +175,7 @@ function getUsername() {
   var person = "";
   var person = document.cookie.replace(/(?:(?:^|.*;\s*)person\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
-  var user_color = document.cookie.replace(/(?:(?:^|.*;\s*)user_color\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  var user_colour = document.cookie.replace(/(?:(?:^|.*;\s*)user_colour\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
   while (person == "" || person.length > 27) {
     var person = prompt("Please enter a username (Max 27 chars).", "");
@@ -188,16 +188,16 @@ function getUsername() {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
-    document.cookie = "person=" + person + "; " + "user_color=" + user_color + "; " + expires;
+    document.cookie = "person=" + person + "; " + "user_colour=" + user_colour + "; " + expires;
 
     name_obj = {"type":"new_username", "username":person}
     ws.send(JSON.stringify(name_obj));
   }
-  if (user_color == "") {
-    var user_color = "#F1F1F1";
+  if (user_colour == "") {
+    var user_colour = "#F1F1F1";
   }
-  if (user_color != "") {
-    color_obj = {"type":"msg", "data":"/uc "+user_color}
+  if (user_colour != "") {
+    color_obj = {"type":"msg", "data":"/uc "+user_colour}
     ws.send(JSON.stringify(color_obj));
   }
 }

@@ -107,6 +107,10 @@ p {
     color: #ff4444;
 }
 
+.user-colour {
+    color: var(--user-colour);
+}
+
 .logs {
     display: flex;
 
@@ -158,9 +162,8 @@ p {
     border-radius: 100px;
 }
 
-.user-btn {
+.user-btn .user-btn-active {
     display: inline-block;
-    /* text-align: center; */
 
     color: var(--user-colour); 
     
@@ -175,30 +178,13 @@ p {
     border-radius: 100px;
 }
 
+.user-btn-active {
+    border-color: var(--user-colour);
+}
+
 .user-btn:hover {
     border-color: var(--user-colour);
 }
-
-
-.btn-dark {
-    display: inline-block;
-    
-    padding-bottom: 1px;
-    padding-left: 7px;
-    padding-right: 7px;
-    
-    background: #383838;
-
-    border: solid #383838;
-    border-width: 1px;
-    border-radius: 100px;
-}
-
-.btn-dark:hover {
-    background: #383838;
-    border-color: var(--user-colour);
-}
-
 
 .content {
     margin-top: 30px;
