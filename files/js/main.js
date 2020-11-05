@@ -264,7 +264,12 @@ function init() {
       console.log(message)
 
       var userelement = document.getElementById(userid);
-      userelement.innerHTML = `<a onclick="calloutUser('${username}')"><font color="${user_colour}">${username}</font></a>`;
+      userelement.classList.add("user-list-obj")
+      userelement.innerHTML = `<input type="button" class="user-btn" onclick="calloutUser('${username}')" value="${username}" />`;
+      
+      input = userelement.firstElementChild;
+      input.style.setProperty('--user-colour', user_colour);
+      
       if (past_cur_use && username != "[BLOCKED]" && true != username.endsWith("</font>")) {
         notifyMe("User joined: " + username)
       }
