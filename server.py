@@ -36,7 +36,7 @@ if __name__ == "__main__":
     print(lg)
 
     HOST = '0.0.0.0'
-    PORT = 1234
+    PORT = 80
     SOC_PORT = 9001
 
     stdout.write('- Initializing WebSocket Server Threads...\t')
