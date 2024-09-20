@@ -171,7 +171,7 @@ def message_received(client, server, message):
 
         message['username'] = client['username']
         message['user_colour'] = client['user_colour']
-        message['time'] = time.strftime("%H:%M", time.localtime())
+        message['time'] = time.strftime("%d %b %H:%M", time.localtime())
         message['data'] = msgData
         send_message_to_all_log(json.dumps(message), server)
 
