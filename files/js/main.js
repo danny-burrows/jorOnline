@@ -207,7 +207,7 @@ var ws;
 function init() {
 
   // Connect to Web Socket
-  ws = new WebSocket(`ws://${HOST}:${PORT}/`);
+  ws = new WebSocket(`wss://${HOST}/websocket`);
   file_objs = {}
   
   // Set event handlers.
@@ -261,11 +261,9 @@ function init() {
       var user_colour = message.user_colour;
       var userid = message.id;
 
-      console.log(message)
-
       var userelement = document.getElementById(userid);
       userelement.classList.add("user-list-obj")
-      userelement.innerHTML = `<input type="button" class="user-btn" onclick="calloutUser('${username}')" value="${username}" />`;
+      userelement.innerHTML = `<button class="user-btn" onclick="calloutUser('${username}')">${username}</button>`;
       
       input = userelement.firstElementChild;
       input.style.setProperty('--user-colour', user_colour);

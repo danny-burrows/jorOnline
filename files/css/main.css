@@ -162,12 +162,12 @@ p {
     border-radius: 100px;
 }
 
-.user-btn .user-btn-active {
+.user-btn {
     display: inline-block;
 
     color: var(--user-colour); 
     
-    padding-bottom: 1px;
+    padding-bottom: 3px;
     padding-left: 7px;
     padding-right: 7px;
     
@@ -176,6 +176,8 @@ p {
     border: solid #292929;
     border-width: 2px;
     border-radius: 100px;
+
+    transition: 0.2s;
 }
 
 .user-btn-active {
