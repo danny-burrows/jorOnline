@@ -74,7 +74,6 @@ async def register_client(websocket):
     data = {"type": "client_joined", "id": new_client.id}
     clients.add(new_client)
     send_message_to_all_no_log(json.dumps(data))
-    print(clients)
 
 
 async def handle_client_disconnect(websocket):
