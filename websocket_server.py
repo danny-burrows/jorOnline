@@ -4,7 +4,6 @@ import json
 import asyncio
 
 from collections import deque
-from os import chdir
 from sys import stdout
 from websockets.asyncio.server import broadcast, serve
 

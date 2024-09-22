@@ -1,7 +1,6 @@
 from os import chdir
 from sys import stdout
 from http.server import SimpleHTTPRequestHandler, HTTPServer
-from threading import Thread
 
 from common import logo
 
