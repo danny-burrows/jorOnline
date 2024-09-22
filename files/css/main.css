@@ -90,11 +90,6 @@ p {
     padding-left: 2rem 4rem;
 }
 
-[type="file"]:focus + label,
-[type="file"] + label:hover {
-    background-color: #e25822;
-}
-
 [type="file"]:focus + label {
     outline: 1px dotted #000;
 }
@@ -117,17 +112,18 @@ p {
     min-height: 550px;
     max-height: 600px;
 
-    background-color: #303030;    
 }
 
 .chat-log {
-    flex: 0 0 70%;
+    flex: 1;
     border: 1px solid;
+    border-radius: 10px;
     padding: 10px;
     border-color: #888;
 
     overflow: auto;
-	word-wrap: break-word;
+    word-wrap: break-word;
+    margin-right: 10px;
 }
 
 .chat-log > div {
@@ -135,20 +131,23 @@ p {
     padding-bottom: 6px;
     padding-left: 11px;
     padding-right: 11px;
-    
+
     background-color: #292929;
     border-radius: 10px;
     margin-bottom: 10px;
 }
 
 .user-log {
-    flex: 0 0 30%;
+    color: #aaaaaa;
+    flex: 0 0 20%;
     border: 1px solid;
+    border-radius: 10px;
     padding: 10px;
     border-color: #888;
 
+    background-color: #303030;
     overflow: auto;
-	word-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .user-list-obj {
@@ -156,7 +155,7 @@ p {
 
     margin-right: 10px;
     margin-bottom: 10px;
-    
+
     background-color: #292929;
 
     border-radius: 100px;
@@ -165,12 +164,12 @@ p {
 .user-btn {
     display: inline-block;
 
-    color: var(--user-colour); 
-    
+    color: var(--user-colour);
+
     padding-bottom: 3px;
     padding-left: 7px;
     padding-right: 7px;
-    
+
     background-color: #292929;
 
     border: solid #292929;
@@ -199,6 +198,7 @@ p {
     text-shadow: none;
     background-color: #777;
     border: 1px solid;
+    border-radius: 10px;
     padding: 20px;
     box-shadow: 2px 4px 3px #888;
 }
@@ -206,6 +206,7 @@ p {
 .file-link {
     margin-top: 10px;
     border: 1px solid;
+    border-radius: 10px;
     padding: 10px;
     box-shadow: 2px 4px 3px #888;
     display: inline-block;
@@ -228,6 +229,10 @@ hr {
     max-width: 90%;
 }
 
+.message-form > * {
+    font-size: 15px !important;
+}
+
 .message-form {
     min-width: 100%;
     max-width: 100%;
@@ -236,25 +241,42 @@ hr {
 
 .msg-input {
     min-width: 100px;
+    margin-right: 10px;
+}
+
+.msg-input:hover {
+    outline: 2px solid #eeeeee19 !important;
+}
+
+.icon {
+    position: relative;
+    top: -5px;
+}
+
+.message-button:hover {
+    background-color: #292929;
+    outline: 2px solid #eeeeee19;
 }
 
 .img-input {
+    max-width: 50px;
     white-space: nowrap;
+    margin-right: 10px;
 }
 
 .send-btn {
-    min-width: 70px;
-    width: 10%;
+    max-width: 50px;
+    margin-right: 0;
 }
 
 .form-control {
-    border-radius: 0;
+    border-radius: 10px;
     border-color: #888;
-	color: #EEE;
+    color: #EEE;
     background: #303030;
     padding: 12px 15px;
-    max-height: 50px;
-    min-height: 50px;
+    max-height: 40px;
+    min-height: 40px;
     margin-bottom: 10px;
 }
 
