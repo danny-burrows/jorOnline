@@ -135,7 +135,7 @@ async def handle_message(websocket, message):
         if len(msgData) > 400:
             msgData = msgData[:400] + '...'
             msg = '<button class="btn-dark">Server: Whoa whoa, hold up there buddy! Messages must be 400 chars or less, maybe retry that...</button>'
-            server.send_message(client, json.dumps({"type":"serv_msg", "data":msg}))
+            await websocket.send(json.dumps({"type":"serv_msg", "data":msg}))
 
         # Hyperliinks; Experimental regex...
         hyperlinks = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', msgData)
@@ -153,14 +153,14 @@ async def handle_message(websocket, message):
         if "@" in msgData:
             user_finder = re.findall(r"(?<=^|(?<=[^a-zA-Z0-9-_\.]))@([A-Za-z0-9-_]+[A-Za-z0-9-_]+)", msgData)
             for found in user_finder:
-                for user in server.clients:
-                    if found == user["username"]:
+                for user in clients:
+                    if found == user.username:
                         msgData = msgData.replace(
-                            f"@{user['username']}",
-                            f'<input type="button" class="user-btn-active" style="--user-colour:{user["user_colour"]};" onclick="calloutUser(\'{user["username"]}\')" value="{user["username"]}" />'
+                            f"@{user.username}",
+                            f'<input type="button" class="user-btn-active" style="--user-colour:{user.user_colour};" onclick="calloutUser(\'{user.username}\')" value="{user.username}" />'
                         )
                         data = {"type": "client_notif", "user": client.username}
-                        server.send_message(user, json.dumps(data))
+                        await user.websocket.send(json.dumps(data))
 
         # Commands!
         if msgData[0] == "/":
