@@ -12,12 +12,11 @@ from common import logo
 
 
 clients = set()
-greeting = {"type":"serv_msg", "data":"Start of chat log."}
+greeting = {"type": "serv_msg", "data": "Start of chat log."}
 message_history = deque([json.dumps(greeting)])
 
 
 class Client:
-
     def __init__(self, websocket):
         self.websocket = websocket
         self.username = ""
@@ -54,17 +53,14 @@ async def register_client(websocket):
 
     global clients
     for client in clients:
-        data = {
-            "type": "client_joined",
-            "id": client.id
-        }
+        data = {"type": "client_joined", "id": client.id}
         await websocket.send(json.dumps(data))
 
         data = {
             "type": "client_name",
             "id": client.id,
             "user_colour": client.user_colour,
-            "username": client.username
+            "username": client.username,
         }
         await websocket.send(json.dumps(data))
 
@@ -96,9 +92,9 @@ async def handle_message(websocket, message):
         pass
 
     elif message["type"] == "file":
-        message['username'] = client.username
-        message['user_colour'] = client.user_colour
-        message['time'] = time.strftime("%H:%M", time.localtime())
+        message["username"] = client.username
+        message["user_colour"] = client.user_colour
+        message["time"] = time.strftime("%H:%M", time.localtime())
 
         if message["MIME"] in ("img", "link", "vid"):
             send_message_to_all(json.dumps(message))
@@ -126,37 +122,47 @@ async def handle_message(websocket, message):
         msgData = msgData.replace("&", "&amp")  # Fixes html injections.
         msgData = msgData.replace("<", "&lt")
         msgData = msgData.replace(">", "&gt")
-        msgData = msgData.replace("\"", "&quot")
+        msgData = msgData.replace('"', "&quot")
         msgData = msgData.replace("\u200b", "")  # Block's no-width spaces!
         msgData = msgData.replace("\ufeff", "")
 
         # Limits messages to 400 chars.
         if len(msgData) > 400:
-            msgData = msgData[:400] + '...'
+            msgData = msgData[:400] + "..."
             msg = '<button class="btn-dark">Server: Whoa whoa, hold up there buddy! Messages must be 400 chars or less, maybe retry that...</button>'
-            await websocket.send(json.dumps({"type":"serv_msg", "data":msg}))
+            await websocket.send(json.dumps({"type": "serv_msg", "data": msg}))
 
         # Hyperliinks; Experimental regex...
-        hyperlinks = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', msgData)
+        hyperlinks = re.findall(
+            r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
+            msgData,
+        )
         if len(hyperlinks):
             for hyperlink in hyperlinks:
-                msgData = msgData.replace(hyperlink, f'<a href="{hyperlink}" target="_blank" rel="noopener noreferrer">{hyperlink}</a>')
+                msgData = msgData.replace(
+                    hyperlink,
+                    f'<a href="{hyperlink}" target="_blank" rel="noopener noreferrer">{hyperlink}</a>',
+                )
 
         # Dealing with italics...
         if "*" in msgData:
-            italic_finder = re.findall(r'\*(.*?)\*', msgData)  # Botched regex, gets confused with multiple * and breaks maths. :/
+            italic_finder = re.findall(
+                r"\*(.*?)\*", msgData
+            )  # Botched regex, gets confused with multiple * and breaks maths. :/
             for found in italic_finder:
                 msgData = msgData.replace(f"*{found}*", f"<i>{found}</i>")
 
         # User addressing...
         if "@" in msgData:
-            user_finder = re.findall(r"(?<=^|(?<=[^a-zA-Z0-9-_\.]))@([A-Za-z0-9-_]+[A-Za-z0-9-_]+)", msgData)
+            user_finder = re.findall(
+                r"(?<=^|(?<=[^a-zA-Z0-9-_\.]))@([A-Za-z0-9-_]+[A-Za-z0-9-_]+)", msgData
+            )
             for found in user_finder:
                 for user in clients:
                     if found == user.username:
                         msgData = msgData.replace(
                             f"@{user.username}",
-                            f'<input type="button" class="user-btn-active" style="--user-colour:{user.user_colour};" onclick="calloutUser(\'{user.username}\')" value="{user.username}" />'
+                            f'<input type="button" class="user-btn-active" style="--user-colour:{user.user_colour};" onclick="calloutUser(\'{user.username}\')" value="{user.username}" />',
                         )
                         data = {"type": "client_notif", "user": client.username}
                         await user.websocket.send(json.dumps(data))
@@ -178,7 +184,7 @@ async def handle_message(websocket, message):
                     "type": "client_name",
                     "id": client.id,
                     "username": client.username,
-                    "user_colour": client.user_colour
+                    "user_colour": client.user_colour,
                 }
                 send_message_to_all_no_log(json.dumps(data))
                 return
@@ -189,30 +195,36 @@ async def handle_message(websocket, message):
                 msgData = msgData.replace("/m", "")
                 data = {
                     "type": "serv_msg",
-                    "data": f'<input type="button" class="user-btn-active" style="--user-colour:{client.user_colour};" value="{client.username}" />{msgData}'
+                    "data": f'<input type="button" class="user-btn-active" style="--user-colour:{client.user_colour};" value="{client.username}" />{msgData}',
                 }
                 send_message_to_all(json.dumps(data))
                 return
 
-        if msgData.strip().lower() == client.last_message.strip().lower():  # Check if message and sender (client) is the same as the last.
+        if (
+            msgData.strip().lower() == client.last_message.strip().lower()
+        ):  # Check if message and sender (client) is the same as the last.
             client.spam_count += 1  # Increment Spam counter.
-            if client.spam_count > 3:  # If sender has sent the same message for the 4th time they are blocked.
+            if (
+                client.spam_count > 3
+            ):  # If sender has sent the same message for the 4th time they are blocked.
                 data = {
                     "type": "serv_msg",
-                    "data": f"{client.username} was removed for spam."
+                    "data": f"{client.username} was removed for spam.",
                 }
                 send_message_to_all(json.dumps(data))
                 client.is_blocked = 1  # Also blocks messages from this client!
                 return
         else:
-            client.spam_count = 0  # Reset spam counter to 0, as message is unique to last.
+            client.spam_count = (
+                0  # Reset spam counter to 0, as message is unique to last.
+            )
 
         client.last_message = msgData
 
-        message['username'] = client.username
-        message['user_colour'] = client.user_colour
-        message['time'] = time.strftime("%d %b %H:%M", time.localtime())
-        message['data'] = msgData
+        message["username"] = client.username
+        message["user_colour"] = client.user_colour
+        message["time"] = time.strftime("%d %b %H:%M", time.localtime())
+        message["data"] = msgData
         send_message_to_all(json.dumps(message))
 
         client.tt = time.time()
@@ -236,12 +248,12 @@ async def create_websocket_server_future():
 if __name__ == "__main__":
     print(logo)
 
-    HOST = '0.0.0.0'
+    HOST = "0.0.0.0"
     PORT = 9001
 
-    stdout.write('- Building Websocket Server Future...\t')
+    stdout.write("- Building Websocket Server Future...\t")
     websocket_server_future = create_websocket_server_future()
-    stdout.write('[DONE]\n')
+    stdout.write("[DONE]\n")
 
-    print('[jor_online_websockets] Active On... ' + HOST + ':' + str(PORT))
+    print("[jor_online_websockets] Active On... " + HOST + ":" + str(PORT))
     asyncio.run(websocket_server_future)
