@@ -102,14 +102,14 @@ async def handle_message(websocket, message):
         message['time'] = time.strftime("%H:%M", time.localtime())
 
         if message["MIME"] in ("img", "link", "vid"):
-            send_message_to_all_no_log(json.dumps(message))
+            send_message_to_all(json.dumps(message))
 
         elif message["MIME"] == "txt":
             filename = message["filename"]
             box_padding = "#" * (len(filename) + 4)
             show_filename = f"{box_padding}\n# {filename} #\n{box_padding}\n"
             message["show_filename"] = show_filename
-            send_message_to_all_no_log(json.dumps(message))
+            send_message_to_all(json.dumps(message))
 
     elif message["type"] == "new_username":
         username = message["username"].strip()

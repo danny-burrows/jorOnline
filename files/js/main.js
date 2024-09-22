@@ -74,8 +74,8 @@ function onSubmitFile() {
   reader.onload  = function(evt) {
     if (evt.target.readyState == FileReader.DONE) { // DONE == 2
 
-      if (file.size > 15000000) {
-        alert("Jeez thats a lot to carry, I'm sorry we can only take files under 15MB!");
+      if (file.size > 1048576) {
+        alert("Jeez thats a lot to carry, I'm sorry we can only take files under 1MiB!");
         return;
       }
 
