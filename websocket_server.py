@@ -130,7 +130,7 @@ async def handle_message(websocket, message):
             msg = '<button class="btn-dark">Server: Whoa whoa, hold up there buddy! Messages must be 400 chars or less, maybe retry that...</button>'
             await websocket.send(json.dumps({"type": "serv_msg", "data": msg}))
 
-        # Hyperliinks; Experimental regex...
+        # Hyperlinks
         hyperlinks = re.findall(
             r"\b(?:https?://|www\.)\S+\b",
             msgData,
