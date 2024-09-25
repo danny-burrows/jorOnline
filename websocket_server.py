@@ -256,4 +256,7 @@ if __name__ == "__main__":
     stdout.write("[DONE]\n")
 
     print("[jor_online_websockets] Active On... " + HOST + ":" + str(PORT))
-    asyncio.run(websocket_server_future)
+    try:
+        asyncio.run(websocket_server_future)
+    except KeyboardInterrupt:
+        print("\nKILLING SERVER...")
