@@ -1,5 +1,4 @@
 body {
-    /* margin-right: 200px; */
     width: 100wh;
     height: 90vh;
     color: #e4e4e4;
@@ -120,10 +119,12 @@ p {
     border-radius: 10px;
     padding: 10px;
     border-color: #888;
-
-    overflow: auto;
     word-wrap: break-word;
     margin-right: 10px;
+
+    overflow: auto;
+    scrollbar-color: grey transparent;
+    scrollbar-width: thin;
 }
 
 .chat-log > div {
