@@ -143,12 +143,18 @@ async def handle_message(websocket, message):
                 )
 
         # Dealing with italics...
+        if "_" in msgData:
+            italic_finder = re.findall(r"_(.*?)_", msgData)
+            for found in italic_finder:
+                msgData = msgData.replace(f"_{found}_", f"<em>{found}</em>")
+
+        # Dealing with bolds...
         if "*" in msgData:
             italic_finder = re.findall(
-                r"\*(.*?)\*", msgData
+                r"\*([^*]*?)\*", msgData
             )  # Botched regex, gets confused with multiple * and breaks maths. :/
             for found in italic_finder:
-                msgData = msgData.replace(f"*{found}*", f"<em>{found}</em>")
+                msgData = msgData.replace(f"*{found}*", f"<strong style=\"color: white\">{found}</strong>")
 
         # User addressing...
         if "@" in msgData:
