@@ -313,8 +313,6 @@ function calloutUser(username) {
 }
 
 function closingCode(){
-  data = {"type": "user_disconnect"};
-  ws.send(JSON.stringify(data));
   ws.close();
   return null;
 }

@@ -86,10 +86,6 @@ async def handle_message(websocket, message):
     if client.username is None:
         client.username = client.id
 
-    if message["type"] == "user_disconnect":
-        data = {"type": "client_left", "id": client.id}
-        send_message_to_all_no_log(json.dumps(data))
-
     elif client.is_blocked:
         pass
 
