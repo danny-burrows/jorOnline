@@ -161,7 +161,7 @@ async def handle_message(websocket, message):
                     if found == user.username:
                         msgData = msgData.replace(
                             f"@{user.username}",
-                            f'<input type="button" class="user-btn-active" style="--user-colour:{user.user_colour};" onclick="calloutUser(\'{user.username}\')" value="{user.username}" />',
+                            f'<button class="user-btn user-btn-active" style="--user-colour:{user.user_colour};" onclick="calloutUser(\'{user.username}\')">{user.username}</button>',
                         )
                         data = {"type": "client_notif", "user": client.username}
                         await user.websocket.send(json.dumps(data))
@@ -194,7 +194,7 @@ async def handle_message(websocket, message):
                 msgData = msgData.replace("/m", "")
                 data = {
                     "type": "serv_msg",
-                    "data": f'<input type="button" class="user-btn-active" style="--user-colour:{client.user_colour};" value="{client.username}" />{msgData}',
+                    "data": f'<button class="user-btn user-btn-active" style="--user-colour:{client.user_colour};">{client.username}</button>{msgData}',
                 }
                 send_message_to_all(json.dumps(data))
                 return
