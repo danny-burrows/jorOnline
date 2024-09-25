@@ -133,7 +133,7 @@ async def handle_message(websocket, message):
 
         # Hyperliinks; Experimental regex...
         hyperlinks = re.findall(
-            r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
+            r"\b(?:https?://|www\.)\S+\b",
             msgData,
         )
         if len(hyperlinks):
