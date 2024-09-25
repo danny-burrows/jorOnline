@@ -10,7 +10,7 @@ jQuery(function ($) {
 jQuery(function ($) {
   var $inputs = $('input[name=file]');
   $inputs.on('change', function (e) {
-    
+
     var label = input.nextElementSibling,
                     labelVal = label.innerHTML;
 

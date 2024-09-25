@@ -67,7 +67,6 @@ function onSubmitFile() {
   console.log(extension);
 
   console.log(document.getElementById('file'));
-  
   var reader = new FileReader();
 
   // If we use onloadend, we need to check the readyState.
@@ -109,7 +108,7 @@ function onSubmitFile() {
     }
   };
   reader.readAsBinaryString(file);
-  
+
   input = document.getElementById("file");
   input.value = "";
   inputLabel = input.nextElementSibling;
@@ -123,7 +122,7 @@ function file_content_to_blob(file_content, extension) {
 
 function outputLink(message, file_content, extension) {
   var blob = file_content_to_blob(file_content, extension);
-  
+
   var link = document.createElement('a');
   var linkText = document.createTextNode(message.filename);
   link.appendChild(linkText);
@@ -158,7 +157,7 @@ function outputFileObj(message, file_obj) {
   var idfun = genUid();
   message.data = `<div id="${idfun}"></div>`;
   outputMessage(message);
-  document.getElementById(idfun).appendChild(file_obj);  
+  document.getElementById(idfun).appendChild(file_obj);
 }
 
 function outputMessage(message){
@@ -209,10 +208,10 @@ function init() {
   // Connect to Web Socket
   ws = new WebSocket(`wss://${HOST}/websocket`);
   file_objs = {}
-  
+
   // Set event handlers.
   ws.onopen = function() {
-    output("<div><i class=\"jor-yellow\">Connected to jorOnline.</i></div>");
+    output("<div><em class=\"jor-yellow\">Connected to jorOnline.</em></div>");
     past_cur_use = false;
     getUsername();
   };
@@ -237,8 +236,8 @@ function init() {
       extension = (/[.]/.exec(message.filename)) ? /[^.]+$/.exec(message.filename) : undefined;
 
       console.log("Outputting File...");
-      
-      if (message.MIME == "txt") {          
+
+      if (message.MIME == "txt") {
         message.data = `<div id="text-block"><pre>${message.show_filename}\n${atob(fileContent)}</pre></div>`;
         outputMessage(message);
       } else if (message.MIME == "img") {
@@ -264,10 +263,10 @@ function init() {
       var userelement = document.getElementById(userid);
       userelement.classList.add("user-list-obj")
       userelement.innerHTML = `<button class="user-btn" onclick="calloutUser('${username}')">${username}</button>`;
-      
+
       input = userelement.firstElementChild;
       input.style.setProperty('--user-colour', user_colour);
-      
+
       if (past_cur_use && username != "[BLOCKED]" && true != username.endsWith("</font>")) {
         notifyMe("User joined: " + username)
       }
@@ -301,7 +300,7 @@ function init() {
   };
 
   ws.onerror = function(e) {
-    output('<div><i class="jor-red">Err: Connection dropped, attempting to re-connect.</i></div>');
+    output('<div><em class="jor-red">Err: Connection dropped, attempting to re-connect.</em></div>');
     document.getElementById("user_log").innerHTML = "";
     console.log(e)
   };
