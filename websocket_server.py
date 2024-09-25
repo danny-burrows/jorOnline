@@ -154,7 +154,9 @@ async def handle_message(websocket, message):
                 r"\*([^*]*?)\*", msgData
             )  # Botched regex, gets confused with multiple * and breaks maths. :/
             for found in italic_finder:
-                msgData = msgData.replace(f"*{found}*", f"<strong style=\"color: white\">{found}</strong>")
+                msgData = msgData.replace(
+                    f"*{found}*", f'<strong style="color: white">{found}</strong>'
+                )
 
         # User addressing...
         if "@" in msgData:
@@ -191,17 +193,6 @@ async def handle_message(websocket, message):
                     "user_colour": client.user_colour,
                 }
                 send_message_to_all_no_log(json.dumps(data))
-                return
-
-            # Actions
-            elif msgData[1] == "m":
-                msgData = msgData.replace("/me", "")
-                msgData = msgData.replace("/m", "")
-                data = {
-                    "type": "serv_msg",
-                    "data": f'<button class="user-btn user-btn-active" style="--user-colour:{client.user_colour};">{client.username}</button>{msgData}',
-                }
-                send_message_to_all(json.dumps(data))
                 return
 
         if (
