@@ -6,6 +6,7 @@ import asyncio
 from collections import deque
 from sys import stdout
 from websockets.asyncio.server import broadcast, serve
+from websockets.exceptions import ConnectionClosedError
 
 from common import logo
 
@@ -74,6 +75,8 @@ async def register_client(websocket):
 async def handle_client_disconnect(websocket):
     global clients
     clients = set(client for client in clients if client.raw_id != websocket.id)
+    data = {"type": "client_left", "id": str(websocket.id)}
+    send_message_to_all_no_log(json.dumps(data))
 
 
 async def handle_message(websocket, message):
@@ -235,6 +238,8 @@ async def websocket_handler(websocket):
         async for message in websocket:
             await handle_message(websocket, message)
         await websocket.wait_closed()
+    except ConnectionClosedError as e:
+        print(f"[websocket error] connection closed early: {e}")
     finally:
         await handle_client_disconnect(websocket)
 
