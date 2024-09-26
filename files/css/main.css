@@ -2,9 +2,9 @@ body {
     width: 100wh;
     height: 90vh;
     color: #e4e4e4;
-    font-weight: 300;
     overflow-x: hidden;
-    font-family: 'Source Code Pro', monospace;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
 
     background: linear-gradient(-45deg, #e25822, #4a0808, #333333, #333333);
     background-size: 1000% 1000%;
@@ -52,7 +52,6 @@ body {
 h1,
 h2 {
 	font-family: 'Julius Sans One', sans-serif;
-	font-weight: 300;
 }
 
 h3 {
@@ -163,6 +162,7 @@ p {
 }
 
 .user-btn {
+    font-weight: 800;
     display: inline-block;
 
     color: var(--user-colour);

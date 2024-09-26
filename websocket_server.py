@@ -140,7 +140,7 @@ async def handle_message(websocket, message):
             )  # Botched regex, gets confused with multiple * and breaks maths. :/
             for found in italic_finder:
                 msgData = msgData.replace(
-                    f"*{found}*", f'<strong style="color: white">{found}</strong>'
+                    f"*{found}*", f'<strong>{found}</strong>'
                 )
 
         # User addressing...
