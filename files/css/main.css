@@ -13,6 +13,10 @@ body {
     animation: Gradient 240s ease infinite;
 }
 
+strong {
+    font-weight: 600;
+}
+
 @-webkit-keyframes Gradient {
     0% {
         background-position: 0% 50%
@@ -162,7 +166,7 @@ p {
 }
 
 .user-btn {
-    font-weight: 800;
+    font-weight: 600;
     display: inline-block;
 
     color: var(--user-colour);
