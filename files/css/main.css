@@ -230,11 +230,11 @@ hr {
     max-width: 90%;
 }
 
-.message-form > * {
+#chat-form > * {
     font-size: 15px !important;
 }
 
-.message-form {
+#chat-form {
     min-width: 100%;
     max-width: 100%;
     display: flex;
@@ -260,9 +260,18 @@ hr {
 }
 
 .img-input {
-    max-width: 50px;
+    max-width: 250px;
     white-space: nowrap;
     margin-right: 10px;
+}
+
+#file-input-label {
+    overflow: hidden;
+}
+
+#file-input-label > * {
+    position: relative;
+    top: -6px;
 }
 
 .send-btn {

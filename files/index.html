@@ -27,12 +27,12 @@
                     <img src="img/logo.png" width="64" height="64"><h1 class="pl-4 site-title">jorOnline</h1>
                 </header>
 
-                <form action="#contact" method="post" class="message-form" onsubmit="onSubmit(); onSubmitFile(); return false;" autocomplete="off">
-                    <input type="text" name="message" id="input" class="form-control msg-input" placeholder="Type a message and press enter to send..." required/>
+                <form id="chat-form" action="" autocomplete="off">
+                    <input id="chat-input" type="text" name="message" class="form-control msg-input" placeholder="Type a message and press enter to send..." />
 
                     <div class="img-input">
-                        <input type="file" name="file" id="file" class="img-input" required/>
-                        <label for="file" class="form-control mb-0 message-button"><span class="icon"><i class="fa fa-file-text"></i></span></label>
+                        <input id="file-input" type="file" name="file" class="img-input" accept="image,text" />
+                        <label id="file-input-label" for="file-input" class="form-control mb-0 message-button"><span><i class="fa fa-file-text"></i></span></label>
                     </div>
 
                     <button type="submit" class="send-btn form-control message-button"><i class="fa fa-send icon"></i></button>

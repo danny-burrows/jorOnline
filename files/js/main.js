@@ -2,25 +2,6 @@ var HOST = window.location.hostname;
 var HTTP_PORT = window.location.port;
 var PORT = "9001";
 
-function genUid() {
-  // Generates a random ID...
-  var S4 = function() {
-    return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-  };
-  return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-}
-
-function base64ToArrayBuffer(base64) {
-  var binaryString = window.atob(base64);
-  var binaryLen = binaryString.length;
-  var bytes = new Uint8Array(binaryLen);
-  for (var i = 0; i < binaryLen; i++) {
-    var ascii = binaryString.charCodeAt(i);
-    bytes[i] = ascii;
-  }
-  return bytes;
-}
-
 function notifyMe(message) {
   if (Notification.permission !== "granted")
     Notification.requestPermission();
@@ -31,133 +12,85 @@ function notifyMe(message) {
     });
 
     notification.onclick = function () {
-      window.open(`http://${HOST}:${HTTP_PORT}`);
+      window.open(`https://${HOST}:${HTTP_PORT}`);
     };
   }
 }
 
-function onSubmit() {
-  var input = document.getElementById("input");
-  var msg = input.value.replace(/__/g, "__/");
+async function on_submit_chat_form() {
+  const chat_input = document.getElementById("chat-input");
+  const message = chat_input.value;
 
-  if (msg.startsWith("/uc ")){
-    var col = msg.split(' ')[1];
+  if (message.startsWith("/uc ")){
+    var col = message.split(' ')[1];
     var exdays = 30;
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     document.cookie = `user_colour=${col}; expires=${d.toUTCString()}`;
   }
 
-  var msg_obj = {"type": "msg", "data": msg};
-  ws.send(JSON.stringify(msg_obj));
-  input.value = "";
-  input.focus();
-}
-
-function onSubmitFile() {
-
-  var files = document.getElementById('file').files;
-  if (!files.length) {
-    return;
+  // N.B. File picker doesn't have `multiple` attribute so only one file can be provided.
+  const file_input = document.getElementById('file-input');
+  const file = file_input.files.length > 0 ? file_input.files[0] : null;
+  if (message.length == 0 && file == null) {return;}
+  let message_object = {};
+  if (file) {
+    try {
+      const file_data = await read_file_data(file);
+      message_object = {type: "file", data: message, file_data: file_data};
+    } catch (e) {
+      console.error(e);
+      return;
+    } finally {
+      file_input.value = "";
+      const file_input_label = document.getElementById("file-input-label");
+      file_input_label.querySelector('span').innerHTML = '<i class="fa fa-file-text"></i>';
+    }
+  } else {
+    message_object = {type: "text", data: message};
   }
 
-  var file = files[0];
-  console.log(file);
-  extension = (/[.]/.exec(file.name)) ? /[^.]+$/.exec(file.name) : undefined;
-  console.log(extension);
+  ws.send(JSON.stringify(message_object));
+  chat_input.value = "";
+  chat_input.focus();
+}
 
-  console.log(document.getElementById('file'));
-  var reader = new FileReader();
+async function read_file_data(file) {
+  const MAX_FILE_SIZE = 1048576; // 1MiB is the maximum message size that python websockets supports.
+  if (file.size > MAX_FILE_SIZE) {
+    alert("That is a lot to carry! I'm sorry we can only take files under 1MiB.");
+    throw new Error("File too large!");
+  }
 
-  // If we use onloadend, we need to check the readyState.
-  reader.onload  = function(evt) {
-    if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+  let file_data = null;
+  if (file.type.startsWith("text/")) {
+    file_data = await file.text();
+  } else {
+    file_data = await read_file_as_data_url(file);
+  }
 
-      if (file.size > 1048576) {
-        alert("Jeez thats a lot to carry, I'm sorry we can only take files under 1MiB!");
-        return;
-      }
-
-      file_obj = {
-        uid: genUid(),
-        type: "file",
-        filename: file.name,
-        data: btoa(evt.target.result)
-      };
-
-      var imgre = /(jpg|jpeg|bmp|png|ico|gif)$/i;
-      var txtre = /(txt)$/i;
-      var vidre = /(webm|mp4|ogv)$/i;
-
-      if(imgre.exec(extension)){
-        file_obj.MIME = "img";
-      }
-      else if (txtre.exec(extension)){
-        file_obj.MIME = "txt";
-      }
-      else if (vidre.exec(extension)){
-        file_obj.MIME = "vid";
-      }
-      else {
-        file_obj.MIME = "link";
-      }
-
-      console.log("File data Sending...");
-      ws.send(JSON.stringify(file_obj));
-      console.log("File data Sent.");
-    }
+  return {
+    uid: crypto.randomUUID(),
+    name: file.name,
+    type: file.type,
+    data: file_data
   };
-  reader.readAsBinaryString(file);
-
-  input = document.getElementById("file");
-  input.value = "";
-  inputLabel = input.nextElementSibling;
-  inputLabel.querySelector('span').innerHTML = '<i class="fa fa-file-text" style="font-size:24px"></i>';
 }
 
-function file_content_to_blob(file_content, extension) {
-  var byte_arr = base64ToArrayBuffer(file_content);
-  return new Blob([byte_arr], {type:"*/"+extension});
-}
-
-function outputLink(message, file_content, extension) {
-  var blob = file_content_to_blob(file_content, extension);
-
-  var link = document.createElement('a');
-  var linkText = document.createTextNode(message.filename);
-  link.appendChild(linkText);
-  link.href = window.URL.createObjectURL(blob);
-  link.download = message.filename;
-  link.classList.add('file-link');
-
-  outputFileObj(message, link);
-};
-
-function outputVideo(message, file_content, extension) {
-  var blob = file_content_to_blob(file_content, extension);
-
-  var video = document.createElement('video');
-  video.src = window.URL.createObjectURL(blob);
-  video.setAttribute("controls", "controls");
-  video.setAttribute("style", "width: auto; max-height: 300px;");
-
-  outputFileObj(message, video);
-};
-
-function outputImage(message, fileContent, extension) {
-  var image = new Image();
-
-  image.src = `data:image/${extension};base64,${fileContent}`;
-  image.style = "width: auto; max-height: 300px;";
-
-  outputFileObj(message, image);
+function read_file_as_data_url(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result); // Resolve the promise with the result
+    reader.onerror = () => reject(new Error('File reading failed'));
+    reader.readAsDataURL(file); // Read the file as a Base64 data URL
+  });
 }
 
 function outputFileObj(message, file_obj) {
-  var idfun = genUid();
-  message.data = `<div id="${idfun}"></div>`;
+  const image_div_id = crypto.randomUUID();
+  message.data = `${message.data}<div id="${image_div_id}" class="my-2"></div>`;
   outputMessage(message);
-  document.getElementById(idfun).appendChild(file_obj);
+  document.getElementById(image_div_id).appendChild(file_obj);
 }
 
 function outputMessage(message){
@@ -196,14 +129,28 @@ function getUsername() {
     var user_colour = "#F1F1F1";
   }
   if (user_colour != "") {
-    color_obj = {"type":"msg", "data":"/uc "+user_colour}
+    color_obj = {"type":"text", "data":"/uc "+user_colour}
     ws.send(JSON.stringify(color_obj));
   }
 }
 
-
 var ws;
 function init() {
+  const chat_form = document.getElementById("chat-form");
+  chat_form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await on_submit_chat_form();
+  });
+
+  const file_input = document.getElementById("file-input");
+  file_input.addEventListener("input", (event) => {
+    event.preventDefault();
+    const files = file_input.files;
+    if (files.length > 0) {
+      const file_input_label = document.getElementById("file-input-label");
+      file_input_label.innerHTML = `<span style="top: -5px;">${files[0].name}</span>`;
+    }
+  });
 
   // Connect to Web Socket
   ws = new WebSocket(`wss://${HOST}/websocket`);
@@ -216,36 +163,31 @@ function init() {
     getUsername();
   };
 
-  ws.onmessage = function(e) {
-    message = e.data;
+  ws.onmessage = function(event) {
+    message = event.data;
 
     try {
       message = JSON.parse(message)
     } catch(e) {
-      console.log("NOT JSON: " + message)
-      return
+      console.error(`Failed to parse message (${message}): ${e}`);
+      return;
     }
 
-    if (message.type == "msg") {
+    if (message.type == "text") {
       outputMessage(message);
-    }
-    else if (message.type == "file") {
-      console.log("Got File Data...");
+    } else if (message.type == "file") {
+      const file_data = message.file_data;
+      const file_type = file_data.type;
 
-      fileContent = message.data;
-      extension = (/[.]/.exec(message.filename)) ? /[^.]+$/.exec(message.filename) : undefined;
-
-      console.log("Outputting File...");
-
-      if (message.MIME == "txt") {
-        message.data = `<div id="text-block"><pre>${message.show_filename}\n${atob(fileContent)}</pre></div>`;
+      if (file_type.startsWith("image/")) {
+        const image = new Image();
+        image.src = file_data.data;
+        image.style = "width: auto; max-height: 300px;";
+        outputFileObj(message, image);
+      } else if (file_type.startsWith("text/")) {
+        console.log(file_data)
+        message.data = `${message.data}<div id="text-block"><pre>${file_data.name}\n${file_data.data}</pre></div>`;
         outputMessage(message);
-      } else if (message.MIME == "img") {
-        outputImage(message, fileContent, extension[0]);
-      } else if (message.MIME == "link") {
-        outputLink(message, fileContent, extension[0]);
-      } else if (message.MIME == "vid") {
-        outputVideo(message, fileContent, extension[0]);
       }
     }
     else if (message.type == "client_joined") {
@@ -307,7 +249,7 @@ function init() {
 }
 
 function calloutUser(username) {
-  var msg_obj = {"type": "msg", "data": `@${username}`};
+  var msg_obj = {"type": "text", "data": `@${username}`};
   ws.send(JSON.stringify(msg_obj));
 }
 

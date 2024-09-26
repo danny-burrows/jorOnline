@@ -89,21 +89,6 @@ async def handle_message(websocket, message):
     elif client.is_blocked:
         pass
 
-    elif message["type"] == "file":
-        message["username"] = client.username
-        message["user_colour"] = client.user_colour
-        message["time"] = time.strftime("%H:%M", time.localtime())
-
-        if message["MIME"] in ("img", "link", "vid"):
-            send_message_to_all(json.dumps(message))
-
-        elif message["MIME"] == "txt":
-            filename = message["filename"]
-            box_padding = "#" * (len(filename) + 4)
-            show_filename = f"{box_padding}\n# {filename} #\n{box_padding}\n"
-            message["show_filename"] = show_filename
-            send_message_to_all(json.dumps(message))
-
     elif message["type"] == "new_username":
         username = message["username"].strip()
         username = "".join(username.split())
@@ -114,7 +99,7 @@ async def handle_message(websocket, message):
         data = {"type": "client_name", "id": str(client.id), "username": username}
         send_message_to_all_no_log(json.dumps(data))
 
-    elif message["type"] == "msg":
+    elif message["type"] == "text" or message["type"] == "file":
         msgData = message["data"]
 
         msgData = msgData.replace("&", "&amp")  # Fixes html injections.
@@ -174,7 +159,7 @@ async def handle_message(websocket, message):
                         await user.websocket.send(json.dumps(data))
 
         # Commands!
-        if msgData[0] == "/":
+        if msgData and msgData[0] == "/":
             # Colour selection
             if msgData[1] == "c":
                 colour = re.findall("/c (.*?) ", msgData)
@@ -196,7 +181,7 @@ async def handle_message(websocket, message):
                 return
 
         if (
-            msgData.strip().lower() == client.last_message.strip().lower()
+            msgData.strip().lower() == client.last_message.strip().lower() and len(msgData) > 0
         ):  # Check if message and sender (client) is the same as the last.
             client.spam_count += 1  # Increment Spam counter.
             if (
@@ -213,6 +198,12 @@ async def handle_message(websocket, message):
             client.spam_count = (
                 0  # Reset spam counter to 0, as message is unique to last.
             )
+
+        if message["type"] == "file" and message["file_data"]["type"] == "text":
+            filename = message["file_data"]["name"]
+            box_padding = "#" * (len(filename) + 4)
+            show_filename = f"{box_padding}\n# {filename} #\n{box_padding}\n"
+            message["data"] += f"<br/>{show_filename}<br/>{message['file_data']['data']}"
 
         client.last_message = msgData
 
