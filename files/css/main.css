@@ -1,17 +1,20 @@
 body {
-    /* margin-right: 200px; */
     width: 100wh;
     height: 90vh;
     color: #e4e4e4;
-    font-weight: 300;
     overflow-x: hidden;
-    font-family: 'Source Code Pro', monospace;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
 
     background: linear-gradient(-45deg, #e25822, #4a0808, #333333, #333333);
     background-size: 1000% 1000%;
     -webkit-animation: Gradient 240s ease infinite;
     -moz-animation: Gradient 240s ease infinite;
     animation: Gradient 240s ease infinite;
+}
+
+strong {
+    font-weight: 600;
 }
 
 @-webkit-keyframes Gradient {
@@ -53,7 +56,6 @@ body {
 h1,
 h2 {
 	font-family: 'Julius Sans One', sans-serif;
-	font-weight: 300;
 }
 
 h3 {
@@ -90,11 +92,6 @@ p {
     padding-left: 2rem 4rem;
 }
 
-[type="file"]:focus + label,
-[type="file"] + label:hover {
-    background-color: #e25822;
-}
-
 [type="file"]:focus + label {
     outline: 1px dotted #000;
 }
@@ -117,17 +114,20 @@ p {
     min-height: 550px;
     max-height: 600px;
 
-    background-color: #303030;    
 }
 
 .chat-log {
-    flex: 0 0 70%;
+    flex: 1;
     border: 1px solid;
+    border-radius: 10px;
     padding: 10px;
     border-color: #888;
+    word-wrap: break-word;
+    margin-right: 10px;
 
     overflow: auto;
-	word-wrap: break-word;
+    scrollbar-color: grey transparent;
+    scrollbar-width: thin;
 }
 
 .chat-log > div {
@@ -135,20 +135,23 @@ p {
     padding-bottom: 6px;
     padding-left: 11px;
     padding-right: 11px;
-    
+
     background-color: #292929;
     border-radius: 10px;
     margin-bottom: 10px;
 }
 
 .user-log {
-    flex: 0 0 30%;
+    color: #aaaaaa;
+    flex: 0 0 20%;
     border: 1px solid;
+    border-radius: 10px;
     padding: 10px;
     border-color: #888;
 
+    background-color: #303030;
     overflow: auto;
-	word-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .user-list-obj {
@@ -156,26 +159,29 @@ p {
 
     margin-right: 10px;
     margin-bottom: 10px;
-    
+
     background-color: #292929;
 
     border-radius: 100px;
 }
 
-.user-btn .user-btn-active {
+.user-btn {
+    font-weight: 600;
     display: inline-block;
 
-    color: var(--user-colour); 
-    
-    padding-bottom: 1px;
+    color: var(--user-colour);
+
+    padding-bottom: 2px;
     padding-left: 7px;
     padding-right: 7px;
-    
+
     background-color: #292929;
 
     border: solid #292929;
     border-width: 2px;
     border-radius: 100px;
+
+    transition: 0.2s;
 }
 
 .user-btn-active {
@@ -197,6 +203,7 @@ p {
     text-shadow: none;
     background-color: #777;
     border: 1px solid;
+    border-radius: 10px;
     padding: 20px;
     box-shadow: 2px 4px 3px #888;
 }
@@ -204,6 +211,7 @@ p {
 .file-link {
     margin-top: 10px;
     border: 1px solid;
+    border-radius: 10px;
     padding: 10px;
     box-shadow: 2px 4px 3px #888;
     display: inline-block;
@@ -226,7 +234,11 @@ hr {
     max-width: 90%;
 }
 
-.message-form {
+#chat-form > * {
+    font-size: 15px !important;
+}
+
+#chat-form {
     min-width: 100%;
     max-width: 100%;
     display: flex;
@@ -234,25 +246,51 @@ hr {
 
 .msg-input {
     min-width: 100px;
+    margin-right: 10px;
+}
+
+.msg-input:hover {
+    outline: 2px solid #eeeeee19 !important;
+}
+
+.icon {
+    position: relative;
+    top: -5px;
+}
+
+.message-button:hover {
+    background-color: #292929;
+    outline: 2px solid #eeeeee19;
 }
 
 .img-input {
+    max-width: 250px;
     white-space: nowrap;
+    margin-right: 10px;
+}
+
+#file-input-label {
+    overflow: hidden;
+}
+
+#file-input-label > * {
+    position: relative;
+    top: -6px;
 }
 
 .send-btn {
-    min-width: 70px;
-    width: 10%;
+    max-width: 50px;
+    margin-right: 0;
 }
 
 .form-control {
-    border-radius: 0;
+    border-radius: 10px;
     border-color: #888;
-	color: #EEE;
+    color: #EEE;
     background: #303030;
     padding: 12px 15px;
-    max-height: 50px;
-    min-height: 50px;
+    max-height: 40px;
+    min-height: 40px;
     margin-bottom: 10px;
 }
 

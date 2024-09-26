@@ -7,15 +7,17 @@
 
     <title>jorOnline</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Source+Code+Pro" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Julius+Sans+One&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="icon" type="image/png" href="img/logo.png">
-    
+
     <script src="js/jquery.min.js" defer></script>
     <script src="js/page-utils.js" defer></script>
-    <script src="js/input-utils.js" defer></script>
     <script src="js/main.js" defer></script>
 </head>
 
@@ -27,24 +29,23 @@
                     <img src="img/logo.png" width="64" height="64"><h1 class="pl-4 site-title">jorOnline</h1>
                 </header>
 
-                <h3 id="tagline" class="mb-3">Welcome to jorOnline.</h3>
+                <form id="chat-form" action="" autocomplete="off">
+                    <input id="chat-input" type="text" name="message" class="form-control msg-input" placeholder="Type a message and press enter to send..." />
 
-                <form action="#contact" method="post" class="message-form" onsubmit="onSubmit(); onSubmitFile(); return false;" autocomplete="off">
-                    <input type="text" name="message" id="input" class="form-control msg-input" placeholder="Type a message and press enter to send..." required/>
-                    
                     <div class="img-input">
-                        <input type="file" name="file" id="file" class="img-input" required/>
-                        <label for="file" class="form-control mb-0"><span><i class="fa fa-file-text" style="font-size:24px"></i></span></label>
+                        <input id="file-input" type="file" name="file" class="img-input" accept="image,text" />
+                        <label id="file-input-label" for="file-input" class="form-control mb-0 message-button"><span><i class="fa fa-file-text"></i></span></label>
                     </div>
-                    
-                    <button type="submit" class="send-btn form-control"><i class="fa fa-send" style="font-size:21px;"></i></button>
+
+                    <button type="submit" class="send-btn form-control message-button"><i class="fa fa-send icon"></i></button>
                 </form>
-                
+
                 <div class="logs">
                     <div id="log" class="chat-log"></div>
 
                     <div class="user-log">
-                        <h3 class="mb-2">Active Users: </h3>
+                        <h5 class="mb-2 text-center">Online Users</h5>
+                        <hr/>
                         <div id="user_log" class="user-list"></div>
                     </div>
                 </div>
@@ -52,7 +53,7 @@
                 <div class="content">
                     <h2>Welcome to jorOnline</h2>
                     <p>
-                        Grab a seat, make yourself at home, nice to meet you. 
+                        Grab a seat, make yourself at home, nice to meet you.
                         jorOnline is a website that uses websockets to let you talk to people from anywhere at any time.
                     </p>
                 </div>
@@ -63,46 +64,42 @@
                         All commands beginning with a '/' must be used at the beginning of a message.
                         <ul>
                             <li>
-                                <i class="jor-red">@</i>user 
-                                <i class="jor-yellow"># Calls user with notification.</i>
+                                <em class="jor-red">@</em>user
+                                <em class="jor-yellow"># Calls user with notification.</em>
                             </li>
                             <li>
-                                <i class="jor-red">*</i>message<i class="jor-red">*</i> 
-                                <i class="jor-yellow"># Makes things italic!</i>
+                                <em class="jor-red">*</em>message<em class="jor-red">*</em>
+                                <em class="jor-yellow"># Makes text bold!</em>
                             </li>
                             <li>
-                                <i class="jor-red">http://</i>link.ext 
-                                <i class="jor-yellow"># Hyperlink to website.</i>
+                                <em class="jor-red">_</em>message<em class="jor-red">_</em>
+                                <em class="jor-yellow"># Makes text italic!</em>
                             </li>
                             <li>
-                                <i class="jor-red">https://</i>link.ext 
-                                <i class="jor-yellow"># More secure hyperlink (Make sure website supports it).</i>
+                                <em class="jor-red">https://</em>link.ext
+                                <em class="jor-yellow"># Hyperlink to website.</em>
                             </li>
                             <li>
-                                <i class="jor-red">/c</i> colour message 
-                                <i class="jor-yellow"># Changes colour of your message.</i>
+                                <em class="jor-red">/c</em> colour message
+                                <em class="jor-yellow"># Changes colour of your message.</em>
                             </li>
                             <li>
-                                <i class="jor-red">/uc</i> colour 
-                                <i class="jor-yellow"># Changes colour of your username.</i>
-                            </li>
-                            <li>
-                                <i class="jor-red">/me</i> action 
-                                <i class="jor-yellow"># Perform an action as yourself.</i>
+                                <em class="jor-red">/uc</em> colour
+                                <em class="jor-yellow"># Changes colour of your username.</em>
                             </li>
                         </ul>
                     </p>
                 </div>
             </div>
-        </div>  
+        </div>
     </div>
-    
+
     <hr>
     <!-- Footer -->
-    <footer class="m-5">
-        <p class="text-center">jorOnline 2020</p>
+    <footer class="m-3">
+        <p class="text-center">jorOnline &bull; Carrier Pigeon Network &bull; 2024</p>
     </footer>
 
-    
+
 </body>
 </html>
